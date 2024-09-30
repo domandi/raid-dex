@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raid Dex by Pokébition</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to the CSS file -->
+</head>
+<body>
+
+  <h1>Raid Dex</h1>
+
+  <div id="raid-list">
+    <div class="raid-card" id="raid1">
+      <h2>Pikachu Raid</h2>
+      <p>Time Remaining: <span class="timer" id="timer1">15:00</span></p>
+      <p>Current Players: <span id="currentPlayers1">3</span>/9</p>
+      <button class="join-button" id="joinButton1" onclick="joinRaid(1)">Join</button>
+    </div>
+
+    <div class="raid-card" id="raid2">
+      <h2>Charizard Raid</h2>
+      <p>Time Remaining: <span class="timer" id="timer2">10:00</span></p>
+      <p>Current Players: <span id="currentPlayers2">5</span>/9</p>
+      <button class="join-button" id="joinButton2" onclick="joinRaid(2)">Join</button>
+    </div>
+  </div>
+
+  <script>
+    // Example function to handle joining a raid
+    function joinRaid(raidId) {
+      const currentPlayersElement = document.getElementById(`currentPlayers${raidId}`);
+      const joinButton = document.getElementById(`joinButton${raidId}`);
+      let currentPlayers = parseInt(currentPlayersElement.textContent);
+
+      if (currentPlayers < 9) {
+        currentPlayers++;
+        currentPlayersElement.textContent = currentPlayers;
+        
+        // Disable button if max players reached
+        if (currentPlayers === 9) {
+          joinButton.disabled = true;
+        }
+      }
+    }
+
+    // Example countdown timer
+    function startCountdown(raidId, duration) {
+      let timeLeft = duration;
+      const timerElement = document.getElementById(`timer${raidId}`);
+      
+      const countdown = setInterval(() => {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        seconds = seconds < 10 ? `0${seconds}` : seconds;
+        timerElement.textContent = `${minutes}:${seconds}`;
+
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          timerElement.textContent = "Time's up!";
+        }
+        timeLeft--;
+      }, 1000);
+    }
+
+    // Start countdown for example raids
+    startCountdown(1, 900); // 15 minutes for Pikachu
+    startCountdown(2, 600); // 10 minutes for Charizard
+  </script>
+
+</body>
+</html>
